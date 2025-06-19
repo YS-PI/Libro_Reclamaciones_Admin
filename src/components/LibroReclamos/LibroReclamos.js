@@ -22,6 +22,7 @@ import {
   ThemeProvider,
   styled,
 } from "@mui/material/styles";
+import usePostRequest from "../../hooks/usePostRequest.js";
 
 export default function LibroReclamos() {
   function truncateText(text, maxLength) {
@@ -61,7 +62,7 @@ export default function LibroReclamos() {
     setPage(0);
   };
   const [saveValue, setSaveValue] = useState([]);
-  const actualizar = async () => {
+  /* const actualizar = async () => {
     try {
       const url = `${process.env.REACT_APP_URL_LIBRO}formulario/Reclamos_actos_con_respuesta_cambio_estado`;
 
@@ -82,10 +83,36 @@ export default function LibroReclamos() {
     } catch (error) {
       toast.success(`ERROR`);
     }
-  };
+  }; */
+
+  const [actualizar] = usePostRequest(
+    // "mantenimiento/aulas/lista",
+    `${
+      process.env.REACT_APP_URL +
+      "formulario/Reclamos_actos_con_respuesta_cambio_estado"
+    }`,
+    setSaveCopy,
+    {},
+    () => {
+      toast.success(`Descarga Exitosa`);
+      dataTable1();
+    },
+    (error) => {
+      toast.error(`ERROR: ${error.message}`);
+    }
+  );
 
   //DATA-CON RESPUESTA 2
-  const dataTable1 = async () => {
+  const [dataTable1] = usePostRequest(
+    // "mantenimiento/aulas/lista",
+    `${
+      process.env.REACT_APP_URL +
+      "formulario/Reclamos_actos_con_respuesta_carga_masiva"
+    }`,
+    setSaveData1,
+    {}
+  );
+  /* const dataTable1 = async () => {
     const url = `${process.env.REACT_APP_URL_LIBRO}formulario/Reclamos_actos_con_respuesta_carga_masiva`;
 
     const header = {
@@ -101,14 +128,14 @@ export default function LibroReclamos() {
     });
 
     setSaveData1(data);
-  };
+  }; */
 
   useEffect(() => {
     dataTable1();
   }, []);
 
   //DATA-CON RESPUESTA 1
-  const dataTable2 = async () => {
+  /* const dataTable2 = async () => {
     const url = `${process.env.REACT_APP_URL_LIBRO}formulario/todos_los_reclamos_faltantes`;
 
     const header = {
@@ -124,14 +151,20 @@ export default function LibroReclamos() {
     });
 
     setSaveData2(data);
-  };
+  }; */
+
+  const [dataTable2] = usePostRequest(
+    `${process.env.REACT_APP_URL}formulario/todos_los_reclamos_faltantes`,
+    setSaveData2,
+    {}
+  );
 
   useEffect(() => {
     dataTable2();
   }, []);
 
   //DATA MASIVA 3
-  const dataTable3 = async () => {
+  /*  const dataTable3 = async () => {
     const url = `${process.env.REACT_APP_URL_LIBRO}formulario/todos_los_reclamos`;
 
     const header = {
@@ -147,8 +180,14 @@ export default function LibroReclamos() {
     });
 
     setSaveData3(data);
-  };
-  console.log(saveData3);
+  }; */
+
+  const [dataTable3] = usePostRequest(
+    // "mantenimiento/aulas/lista",
+    `${process.env.REACT_APP_URL + "formulario/todos_los_reclamos"}`,
+    setSaveData3,
+    {}
+  );
 
   useEffect(() => {
     dataTable3();

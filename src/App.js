@@ -1,7 +1,7 @@
-import LibroReclamos from "./components/LibroReclamos/LibroReclamos";
+import Router from "./router/Router";
 
 const App = () => {
-  return <LibroReclamos />;
+  return <Router />;
 };
 
 export default App;
